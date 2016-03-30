@@ -11,6 +11,7 @@ var exec = require('child_process').exec;
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var networkConf = require('./routes/network-config');
+var networkCheck = require('./routes/network-check');
 
 var app = express();
 
@@ -29,6 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/wifi', networkConf);
+app.use('/network',networkCheck);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
