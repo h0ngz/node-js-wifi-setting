@@ -4,11 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');
+var sys = require('sys');
+var exec = require('child_process').exec;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var networkConf = require('./routes/network-config');
-
 
 var app = express();
 
@@ -61,7 +63,28 @@ app.use(function(err, req, res, next) {
 require('dns').resolve('www.google.com', function(err, addr){
     if (err) {
 	console.log("internet state : no!");
-    }
+        // check mode ap or client
+        fs.readFile('/home/pi/temp-files/mode','utf8', function(err, data) {
+             
+             var word = data.substr(0,2);
+	    
+             if(word==='WI')
+             {
+		console.log('server running at WIFI mode!');
+                // change AP MODE 
+		var child = exec("sudo /home/pi/rasp-simple-wifi-client-ap-switcher/goAP ", function(error, stdout, stderr){
+			if(error) throw err;
+			console.log(stdout);
+			console.log('Ap mode fin.');
+		});
+             }
+             else 
+             {
+                 
+             }
+        }); 
+        
+     }
     else {
        console.log("internet state : ok!");
     }
