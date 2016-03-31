@@ -16,7 +16,16 @@ var jsonObj = {
 
 /* GET users listing. */
 router.get('/check', function(req, res, next) {
-       
+    getServerStat(res);
+});
+
+/* POST users listing. */
+router.post('/check', function(req, res, next) {
+     getServerStat(res);  
+});
+
+function getServerStat(res)
+{
     /* server status */
     var ip = require('os').networkInterfaces()
     // var ip = require('os').networkInterfaces().eth0[ 0].address; 
@@ -55,7 +64,7 @@ router.get('/check', function(req, res, next) {
     
     res.writeHead(200);
     res.end(JSON.stringify(jsonObj));   
-});
+}
 
 module.exports = router;
 
